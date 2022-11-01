@@ -41,11 +41,11 @@ class Training:
 
     def get_distance(self) -> float:
         """Получить дистанцию в км."""
-        distance = (self.action * self.LEN_STEP) / self.M_IN_KM #5.85
+        distance = (self.action * self.LEN_STEP) / self.M_IN_KM
         return distance
 
     def get_mean_speed(self) -> float:
-        """Получить среднюю скорость движения.""" #5/85
+        """Получить среднюю скорость движения."""
         speed = self.get_distance() / self.duration
         return speed
 
@@ -84,7 +84,6 @@ class SportsWalking(Training):
     KMH_IN_MSEC = 0.278
     CM_IN_M = 100
     H_IN_MIN = 60
-    
 
     def __init__(self, action: int, duration: float,
                  weight: float, height: float) -> None:
@@ -128,8 +127,8 @@ class Swimming(Training):
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
     trening_type: dict[str,type[Training]] = {
-        'SWM': Swimming,
-        'RUN': Running,
+        'SWM': Swimming, 
+        'RUN': Running, 
         'WLK': SportsWalking
     }
     return trening_type[workout_type](*data)
