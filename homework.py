@@ -89,11 +89,11 @@ class SportsWalking(Training):
 
     def get_spent_calories(self):
         return ((self.COEF_CAL_1 * self.weight
-            + (((super().get_mean_speed() / self.KMH_IN_MSEC) ** 2)
-            / (self.height * self.CM_IN_M))
-            * self.COEF_CAL_2
-            * self.weight)
-            * (self.duration * super().MIN_IN_H))
+                 + (((super().get_mean_speed() / self.KMH_IN_MSEC) ** 2)
+                 / (self.height * self.CM_IN_M))
+                 * self.COEF_CAL_2
+                 * self.weight)
+                 * (self.duration * super().MIN_IN_H))
 
 
 class Swimming(Training):
