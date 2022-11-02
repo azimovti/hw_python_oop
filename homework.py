@@ -73,7 +73,7 @@ class Running(Training):
                      * super().get_mean_speed()
                      + super().CALORIES_MEAN_SPEED_SHIFT)
                      * (self.weight / super().M_IN_KM)
-                     * (self.duration * super().MIN_IN_H))
+                     * self.duration * super().MIN_IN_H)
         return run_calor
 
 
