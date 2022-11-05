@@ -66,18 +66,20 @@ class Training:
 
 
 class Running(Training):
-    """Тренировка: бег."""
+    """Тренировка: бег.
+    Средняя скорость (get_mean_speed) - км/ч
+    Расстояние       (get_distance) - км.
+    """
     def __init__(self, action, weight, duration) -> None:
         super().__init__(action, weight, duration)
         '''Принимает несколько аргументов:
         1. action - число шагов или гребков
         2. weight - вес пользователя - кг.
         3. duration - Время тренировки - ч.
-        4. Средняя скорость (get_mean_speed) - км/ч
-        5. Расстояние       (get_distance) - км.
         '''
 
     def get_spent_calories(self) -> float:
+        '''Расчет потраченных калорий.'''
         run_calor = ((super().CALORIES_MEAN_SPEED_MULTIPLIER
                      * super().get_mean_speed()
                      + super().CALORIES_MEAN_SPEED_SHIFT)
@@ -87,7 +89,10 @@ class Running(Training):
 
 
 class SportsWalking(Training):
-    """Тренировка: спортивная ходьба."""
+    """Тренировка: спортивная ходьба.
+    Средняя скорость (get_mean_speed) - км/ч
+    Расстояние       (get_distance) - км.
+    """
     CALORIES_WEIGHT_MULTIPLIER: float = 0.035
     CALORIES_SPEED_HEIGHT_MULTIPLIER: float = 0.029
     KMH_IN_MSEC: float = 0.278
@@ -97,9 +102,8 @@ class SportsWalking(Training):
     def __init__(self, action: int, duration: float,
                  weight: float, height: float) -> None:
         super().__init__(action, duration, weight)
-        '''Время тренировки (duration) - ч.
-        Средняя скорость (get_mean_speed) - км/ч
-        Расстояние       (get_distance) - км.
+        '''action - число шагов или гребков
+        Время тренировки (duration) - ч.
         Вес              (weight) - кг.
         Рост             (height) - см.
         '''
@@ -116,7 +120,10 @@ class SportsWalking(Training):
 
 
 class Swimming(Training):
-    """Тренировка: плавание."""
+    """Тренировка: плавание.
+    Расстояние       (get_distance) - км.
+    Средняя скорость (get_mean_speed) - км/ч
+    """
     LEN_STEP: float = 1.38
     CALORIES_WEIGHT_MULTIPLIER: int = 2
     CALORIES_MEAN_SPEED_SHIFT: float = 1.1
@@ -125,11 +132,10 @@ class Swimming(Training):
                  length_pool, count_pool) -> None:
         '''Помимо основных данных принмает дополнительные:
         1. Длина бассейна (length_pool) - м.
-        2. Сколько раз пользователь переплыл бассейн(count_pool)
-        3. Средняя скорость (get_mean_speed) - км/ч
-        4. Расстояние       (get_distance) - км.
-        5. Время тренировки (duration) - ч.
-        6. Вес              (weight) - кг.
+        2. Сколько раз пользователь переплыл бассейн (count_pool)
+        3. Время тренировки (duration) - ч.
+        4. Вес              (weight) - кг.
+        5. Число шагов или гребков (action)
         '''
 
         super().__init__(action, duration, weight)
