@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Dict, Type, List
 
 
 @dataclass
@@ -20,8 +21,8 @@ class InfoMessage:
 
 class Training:
     """Базовый класс тренировки."""
-    CALORIES_MEAN_SPEED_MULTIPLIER = 18
-    CALORIES_MEAN_SPEED_SHIFT = 1.79
+    CALORIES_MEAN_SPEED_MULTIPLIER: int = 18
+    CALORIES_MEAN_SPEED_SHIFT: float = 1.79
     LEN_STEP: float = 0.65
     M_IN_KM: int = 1000
     MIN_IN_H: int = 60
@@ -31,10 +32,10 @@ class Training:
                  duration: float,
                  weight: float,
                  ) -> None:
-        '''Принимает несколько показателей:
-        1. action - число шагов или гребков
-        2. LEN_STEP - расстояние шага или гребка
-        3. weight - вес пользователя
+        '''Принимает несколько аргументов:
+        1. action - число шагов или гребков(шт.)
+        2. LEN_STEP - расстояние шага или гребка(м.)
+        3. weight - вес пользователя(кг.)
         '''
         self.action = action
         self.duration = duration
@@ -65,19 +66,15 @@ class Training:
 
 
 class Running(Training):
-    """Тренировка: бег.
-
-    Средняя скорость (get_mean_speed) - км/ч
-    Расстояние       (get_distance) - км.
-    Время тренировки (duration) - ч.
-    Вес              (weight) - кг.
-    """
+    """Тренировка: бег."""
     def __init__(self, action, weight, duration) -> None:
         super().__init__(action, weight, duration)
-        '''Принимает несколько показателей:
+        '''Принимает несколько аргументов:
         1. action - число шагов или гребков
-        2. LEN_STEP - расстояние шага или гребка
-        3. weight - вес пользователя
+        2. weight - вес пользователя - кг.
+        3. duration - Время тренировки - ч.
+        4. Средняя скорость (get_mean_speed) - км/ч
+        5. Расстояние       (get_distance) - км.
         '''
 
     def get_spent_calories(self) -> float:
@@ -90,14 +87,7 @@ class Running(Training):
 
 
 class SportsWalking(Training):
-    """Тренировка: спортивная ходьба.
-
-    Средняя скорость (get_mean_speed) - км/ч
-    Расстояние       (get_distance) - км.
-    Время тренировки (duration) - ч.
-    Вес              (weight) - кг.
-    Рост             (height) - см.
-    """
+    """Тренировка: спортивная ходьба."""
     CALORIES_WEIGHT_MULTIPLIER: float = 0.035
     CALORIES_SPEED_HEIGHT_MULTIPLIER: float = 0.029
     KMH_IN_MSEC: float = 0.278
@@ -107,7 +97,12 @@ class SportsWalking(Training):
     def __init__(self, action: int, duration: float,
                  weight: float, height: float) -> None:
         super().__init__(action, duration, weight)
-
+        '''Время тренировки (duration) - ч.
+        Средняя скорость (get_mean_speed) - км/ч
+        Расстояние       (get_distance) - км.
+        Вес              (weight) - кг.
+        Рост             (height) - см.
+        '''
         self.height = height
 
     def get_spent_calories(self) -> float:
@@ -121,13 +116,7 @@ class SportsWalking(Training):
 
 
 class Swimming(Training):
-    """Тренировка: плавание.
-
-    Средняя скорость (get_mean_speed) - км/ч
-    Расстояние       (get_distance) - км.
-    Время тренировки (duration) - ч.
-    Вес              (weight) - кг.
-    """
+    """Тренировка: плавание."""
     LEN_STEP: float = 1.38
     CALORIES_WEIGHT_MULTIPLIER: int = 2
     CALORIES_MEAN_SPEED_SHIFT: float = 1.1
@@ -135,9 +124,12 @@ class Swimming(Training):
     def __init__(self, action, duration, weight,
                  length_pool, count_pool) -> None:
         '''Помимо основных данных принмает дополнительные:
-        1. Длина бассейна (length_pool)
+        1. Длина бассейна (length_pool) - м.
         2. Сколько раз пользователь переплыл бассейн(count_pool)
-        Так же переопределен показатель LEN_STEP
+        3. Средняя скорость (get_mean_speed) - км/ч
+        4. Расстояние       (get_distance) - км.
+        5. Время тренировки (duration) - ч.
+        6. Вес              (weight) - кг.
         '''
 
         super().__init__(action, duration, weight)
@@ -157,9 +149,9 @@ class Swimming(Training):
                 * self.weight * self.duration)
 
 
-def read_package(workout_type: str, data: list) -> Training:
+def read_package(workout_type: str, data: List) -> Training:
     """Прочитать данные полученные от датчиков."""
-    trening_type: dict[str, type[Training]] = {
+    trening_type: Dict[str, Type[Training]] = {
         'SWM': Swimming,
         'RUN': Running,
         'WLK': SportsWalking
